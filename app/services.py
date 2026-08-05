@@ -1,7 +1,6 @@
 import platform
 import socket
 import time
-
 import psutil
 
 def get_metrics():
