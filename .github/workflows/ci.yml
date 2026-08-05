@@ -28,9 +28,25 @@ jobs:
           pip install -r requirements.txt
           pip install -r requirements-dev.txt
 
-      - name: Run Tests
+      - name: Check import
         run: |
-          pytest
+          python -c "from app.main import app; print('Import OK')"
+
+      - name: Debug environment
+        run: |
+          pwd
+          ls -la
+          ls -la app
+          python --version
+          python -c "import os; print(os.getcwd())"
+          python -c "import sys; print(sys.path)"
+          python -c "import app; print(app.__file__)"
+          
+      - name: Run Tests
+        env:
+          PYTHONPATH: .
+        run: |
+          python -m pytest
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
