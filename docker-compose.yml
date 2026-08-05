@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+  infra-monitor:
+    build: .
+    container_name: infra-monitor
+    ports: 
+      - "8000:8000"
+    restart: unless-stopped
