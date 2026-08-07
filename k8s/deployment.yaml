@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: infra-monitor
+  namespace: infra-monitor
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: infra-monitor
+
+  template:
+    metadata:
+      labels:
+        app: infra-monitor
+
+    spec:
+      containers:
+        - name: infra-monitor
+
+          image: yurroman/infra-monitor:latest
+          imagePullPolicy: Always
+
+          ports:
+            - containerPort: 8000
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+
+            initialDelaySeconds: 5
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+
+            initialDelaySeconds: 10
+
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
